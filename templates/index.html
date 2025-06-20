@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewAce - AI Interview Preparation Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+
+        .auth-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .role-selection {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            display: none;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .chat-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            display: none;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .role-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            border: 2px solid #e1e5e9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+
+        .role-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .role-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .role-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        .message.bot {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-right: 50px;
+        }
+
+        .message.user {
+            background: #e9ecef;
+            color: #333;
+            margin-left: 50px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group input {
+            flex: 1;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .api-key-section {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .api-key-section h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .api-key-section p {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .show {
+            display: block !important;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-indicator {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .auth-container, .role-selection, .chat-container {
+                padding: 25px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .message.bot {
+                margin-right: 20px;
+            }
+            
+            .message.user {
+                margin-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">🤖 InterviewAce</div>
+            <div class="tagline">AI-Powered Interview Preparation Platform</div>
+        </div>
+
+        <!-- Authentication Section -->
+        <div id="authSection" class="auth-container">
+            <div id="loginForm">
+                <h2 style="margin-bottom: 30px; color: #333; text-align: center;">Welcome Back!</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn" onclick="login()">Sign In</button>
+                <button class="btn btn-secondary" onclick="showRegister()">Create Account</button>
+            </div>
+
+            <div id="registerForm" class="hidden">
+                <h2 style="margin-bottom: 30px; color: #333; text-align: center;">Create Your Account</h2>
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" id="regName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Create a password">
+                </div>
+                <button class="btn" onclick="register()">Create Account</button>
+                <button class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
+            </div>
+        </div>
+
+        <!-- Role Selection Section -->
+        <div id="roleSection" class="role-selection">
+            <h2 style="margin-bottom: 30px; color: #333; text-align: center;">Choose Your Interview Focus</h2>
+            
+            <div class="api-key-section">
+                <h3>🔑 API Configuration</h3>
+                <p>AI-powered questions and evaluations are enabled with our integrated OpenAI system!</p>
+                <div class="form-group">
+                    <input type="password" id="apiKey" placeholder="Optional: Enter your own OpenAI API key" value="">
+                </div>
+                <small style="color: #856404;">We provide a default AI system. You can optionally use your own <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI API key</a> for enhanced features.</small>
+            </div>
+
+            <div class="role-card" onclick="selectRole('fullstack')">
+                <div class="role-title">🌐 Full Stack Developer</div>
+                <div class="role-description">Frontend, Backend, Databases, APIs, and System Design</div>
+            </div>
+
+            <div class="role-card" onclick="selectRole('aiml')">
+                <div class="role-title">🧠 AI/ML Engineer</div>
+                <div class="role-description">Machine Learning, Deep Learning, Data Science, and AI Models</div>
+            </div>
+
+            <div class="role-card" onclick="selectRole('testing')">
+                <div class="role-title">🧪 QA/Testing Engineer</div>
+                <div class="role-description">Manual Testing, Automation, Test Planning, and Quality Assurance</div>
+            </div>
+
+            <div class="role-card" onclick="selectRole('software')">
+                <div class="role-title">💻 Software Developer</div>
+                <div class="role-description">Programming, Algorithms, Data Structures, and Software Design</div>
+            </div>
+
+            <div class="role-card" onclick="selectRole('devops')">
+                <div class="role-title">🚀 DevOps Engineer</div>
+                <div class="role-description">CI/CD, Cloud Services, Infrastructure, and Deployment</div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="startInterview()">Start Interview Preparation</button>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div id="chatSection" class="chat-container">
+            <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                <h2 id="chatTitle" style="color: #333;">Interview Preparation</h2>
+                <button class="btn btn-secondary" onclick="endInterview()" style="margin-left: auto;">End Session</button>
+            </div>
+            
+            <div id="chatMessages" class="chat-messages">
+                <div class="message bot">
+                    Welcome! I'm your AI interview coach. Let's start with some questions to help you prepare. Type 'start' to begin!
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="userInput" placeholder="Type your answer here..." onkeypress="handleKeyPress(event)">
+                <button class="btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentUser = null;
+        let selectedRole = null;
+        let apiKey = null;
+        let questionCount = 0;
+        let maxQuestions = 5;
+        let currentQuestionIndex = 0;
+        let askedQuestions = [];
+
+        // Mock user database
+        let users = JSON.parse(localStorage.getItem('interviewBotUsers') || '[]');
+
+        // Default OpenAI API Key (replace with your actual key)
+        const DEFAULT_API_KEY = "sk-your-openai-api-key-here";
+        
+        // Role configurations with unique questions and answer validation
+        const roleConfigs = {
+            fullstack: {
+                title: "Full Stack Developer",
+                topics: ["React/Vue/Angular", "Node.js/Express", "Databases", "APIs", "System Design", "Cloud Services"],
+                questions: [
+                    {
+                        question: "What is the difference between REST and GraphQL APIs?",
+                        keywords: ["rest", "graphql", "endpoint", "query", "flexibility", "caching", "overfetching"],
+                        correctAnswer: "REST uses multiple endpoints with fixed data structures, while GraphQL uses a single endpoint with flexible queries. GraphQL allows clients to request specific data, reducing overfetching, but REST has better caching mechanisms."
+                    },
+                    {
+                        question: "How would you handle state management in a large React application?",
+                        keywords: ["redux", "context", "state", "component", "props", "global", "local"],
+                        correctAnswer: "Use Redux or Context API for global state, keep local state in components when possible, use useReducer for complex state logic, and consider state normalization for nested data."
+                    },
+                    {
+                        question: "Explain the concept of database indexing and its impact on performance.",
+                        keywords: ["index", "performance", "query", "btree", "hash", "primary", "foreign", "optimization"],
+                        correctAnswer: "Database indexes are data structures that improve query performance by creating shortcuts to data. They speed up SELECT operations but slow down INSERT/UPDATE/DELETE operations due to index maintenance."
+                    },
+                    {
+                        question: "How would you implement authentication and authorization in a web application?",
+                        keywords: ["jwt", "session", "token", "oauth", "authentication", "authorization", "security", "middleware"],
+                        correctAnswer: "Use JWT tokens or sessions for authentication, implement role-based access control for authorization, secure endpoints with middleware, and consider OAuth for third-party authentication."
+                    },
+                    {
+                        question: "What are microservices and what are their advantages and disadvantages?",
+                        keywords: ["microservices", "monolith", "scalability", "deployment", "communication", "database", "complexity"],
+                        correctAnswer: "Microservices are small, independent services that communicate over networks. Advantages: scalability, technology diversity, fault isolation. Disadvantages: complexity, network overhead, distributed system challenges."
+                    }
+                ]
+            },
+            aiml: {
+                title: "AI/ML Engineer",
+                topics: ["Machine Learning", "Deep Learning", "Data Science", "Python", "TensorFlow/PyTorch", "Statistics"],
+                questions: [
+                    {
+                        question: "What is the bias-variance tradeoff and how do you handle it?",
+                        keywords: ["bias", "variance", "overfitting", "underfitting", "regularization", "cross-validation", "complexity"],
+                        correctAnswer: "Bias-variance tradeoff refers to the balance between model complexity and generalization. High bias leads to underfitting, high variance to overfitting. Handle with regularization, cross-validation, and proper model selection."
+                    },
+                    {
+                        question: "Explain the difference between supervised, unsupervised, and reinforcement learning.",
+                        keywords: ["supervised", "unsupervised", "reinforcement", "labels", "clustering", "classification", "reward"],
+                        correctAnswer: "Supervised learning uses labeled data for prediction tasks. Unsupervised learning finds patterns in unlabeled data. Reinforcement learning learns through interaction with environment using rewards and penalties."
+                    },
+                    {
+                        question: "How do you handle missing data in a machine learning dataset?",
+                        keywords: ["missing", "imputation", "deletion", "mean", "median", "interpolation", "knn", "multiple"],
+                        correctAnswer: "Handle missing data through deletion (listwise/pairwise), imputation (mean/median/mode), interpolation, KNN imputation, or multiple imputation. Choice depends on data pattern and amount of missing values."
+                    },
+                    {
+                        question: "What is gradient descent and what are its variants?",
+                        keywords: ["gradient", "descent", "optimization", "learning", "rate", "batch", "stochastic", "momentum"],
+                        correctAnswer: "Gradient descent is an optimization algorithm that minimizes cost function by iteratively moving toward steepest descent. Variants include batch, stochastic, mini-batch, and advanced optimizers like Adam, RMSprop."
+                    },
+                    {
+                        question: "Explain the concept of feature engineering and its importance.",
+                        keywords: ["feature", "engineering", "selection", "extraction", "transformation", "scaling", "encoding", "polynomial"],
+                        correctAnswer: "Feature engineering involves creating, transforming, and selecting features to improve model performance. Includes scaling, encoding categorical variables, creating polynomial features, and domain-specific transformations."
+                    }
+                ]
+            },
+            testing: {
+                title: "QA/Testing Engineer",
+                topics: ["Manual Testing", "Automation", "Test Planning", "Bug Tracking", "Performance Testing", "Security Testing"],
+                questions: [
+                    {
+                        question: "What is the difference between smoke testing and sanity testing?",
+                        keywords: ["smoke", "sanity", "build", "functionality", "subset", "narrow", "wide", "verification"],
+                        correctAnswer: "Smoke testing verifies basic functionality of entire application after new build. Sanity testing is narrow, focused testing of specific functionality after minor changes or bug fixes."
+                    },
+                    {
+                        question: "How would you design a test strategy for a mobile application?",
+                        keywords: ["mobile", "device", "platform", "usability", "performance", "network", "battery", "security"],
+                        correctAnswer: "Consider device compatibility, platform differences (iOS/Android), network conditions, battery usage, touch interactions, orientation changes, performance testing, and security testing."
+                    },
+                    {
+                        question: "What are the key components of a test plan?",
+                        keywords: ["test", "plan", "scope", "objectives", "strategy", "schedule", "resources", "risks", "deliverables"],
+                        correctAnswer: "Test plan includes test objectives, scope, approach, schedule, resources, test environment, entry/exit criteria, deliverables, risks, and contingencies."
+                    },
+                    {
+                        question: "Explain the difference between functional and non-functional testing.",
+                        keywords: ["functional", "non-functional", "requirements", "performance", "usability", "security", "behavior"],
+                        correctAnswer: "Functional testing verifies software functions according to requirements. Non-functional testing checks performance, usability, reliability, security, and other quality attributes."
+                    },
+                    {
+                        question: "How do you prioritize test cases when time is limited?",
+                        keywords: ["priority", "risk", "critical", "business", "impact", "probability", "coverage", "requirements"],
+                        correctAnswer: "Prioritize based on business impact, risk assessment, critical functionality, customer usage patterns, and regulatory requirements. Focus on high-risk, high-impact areas first."
+                    }
+                ]
+            },
+            software: {
+                title: "Software Developer",
+                topics: ["Data Structures", "Algorithms", "Object-Oriented Programming", "System Design", "Code Review", "Version Control"],
+                questions: [
+                    {
+                        question: "What is the time complexity of QuickSort and when would you use it?",
+                        keywords: ["quicksort", "time", "complexity", "average", "worst", "partition", "pivot", "inplace"],
+                        correctAnswer: "QuickSort has average time complexity O(n log n) and worst case O(n²). Use when average performance is important, memory is limited (in-place), and data is randomly distributed."
+                    },
+                    {
+                        question: "Explain the SOLID principles with examples.",
+                        keywords: ["solid", "single", "open", "closed", "liskov", "interface", "dependency", "inversion"],
+                        correctAnswer: "SOLID: Single Responsibility (one reason to change), Open/Closed (open for extension, closed for modification), Liskov Substitution (subclasses should be substitutable), Interface Segregation (specific interfaces), Dependency Inversion (depend on abstractions)."
+                    },
+                    {
+                        question: "How would you implement a LRU (Least Recently Used) cache?",
+                        keywords: ["lru", "cache", "hashmap", "doubly", "linked", "list", "get", "put", "eviction"],
+                        correctAnswer: "Implement using HashMap for O(1) access and doubly linked list for O(1) insertion/deletion. HashMap stores key-node pairs, linked list maintains usage order."
+                    },
+                    {
+                        question: "What are design patterns and give examples of commonly used ones?",
+                        keywords: ["design", "patterns", "singleton", "factory", "observer", "strategy", "decorator", "mvc"],
+                        correctAnswer: "Design patterns are reusable solutions to common problems. Examples: Singleton (single instance), Factory (object creation), Observer (event handling), Strategy (algorithm selection), MVC (separation of concerns)."
+                    },
+                    {
+                        question: "Explain the difference between stack and heap memory allocation.",
+                        keywords: ["stack", "heap", "memory", "allocation", "automatic", "dynamic", "scope", "garbage"],
+                        correctAnswer: "Stack stores local variables and function calls with automatic memory management and limited size. Heap stores dynamically allocated objects with manual/garbage collection management and larger size."
+                    }
+                ]
+            },
+            devops: {
+                title: "DevOps Engineer",
+                topics: ["CI/CD", "Docker", "Kubernetes", "AWS/Azure", "Monitoring", "Infrastructure as Code"],
+                questions: [
+                    {
+                        question: "What are the key stages of a CI/CD pipeline?",
+                        keywords: ["ci", "cd", "pipeline", "build", "test", "deploy", "integration", "delivery", "automation"],
+                        correctAnswer: "CI/CD pipeline stages: Source control trigger, build compilation, automated testing, artifact creation, deployment to staging, production deployment, and monitoring. Ensures automated, reliable software delivery."
+                    },
+                    {
+                        question: "Explain the difference between Docker containers and virtual machines.",
+                        keywords: ["docker", "container", "virtual", "machine", "os", "kernel", "isolation", "resources"],
+                        correctAnswer: "Containers share host OS kernel with process isolation, lightweight and fast startup. VMs include full OS with hardware virtualization, heavier but stronger isolation. Containers are more efficient for microservices."
+                    },
+                    {
+                        question: "How would you implement monitoring and alerting for a production system?",
+                        keywords: ["monitoring", "alerting", "metrics", "logs", "prometheus", "grafana", "elk", "sla"],
+                        correctAnswer: "Implement using metrics collection (Prometheus), visualization (Grafana), log aggregation (ELK stack), health checks, SLA monitoring, and automated alerting based on thresholds and anomalies."
+                    },
+                    {
+                        question: "What is Infrastructure as Code and what are its benefits?",
+                        keywords: ["infrastructure", "code", "terraform", "ansible", "cloudformation", "version", "control", "automation"],
+                        correctAnswer: "Infrastructure as Code manages infrastructure through code (Terraform, Ansible). Benefits: version control, reproducibility, automation, consistency, documentation, and reduced manual errors."
+                    },
+                    {
+                        question: "How do you ensure high availability in a distributed system?",
+                        keywords: ["availability", "distributed", "redundancy", "failover", "load", "balancing", "replication", "disaster"],
+                        correctAnswer: "Ensure high availability through redundancy, load balancing, automatic failover, data replication, health monitoring, disaster recovery planning, and designing for failure scenarios."
+                    }
+                ]
+            }
+        };
+
+        // Authentication functions
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        function register() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            if (users.find(u => u.email === email)) {
+                alert('User already exists');
+                return;
+            }
+
+            const user = { id: Date.now(), name, email, password };
+            users.push(user);
+            localStorage.setItem('interviewBotUsers', JSON.stringify(users));
+            
+            showStatus('Account created successfully!', 'success');
+            showLogin();
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const user = users.find(u => u.email === email && u.password === password);
+            if (!user) {
+                alert('Invalid credentials');
+                return;
+            }
+
+            currentUser = user;
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('roleSection').classList.add('show');
+            
+            showStatus(`Welcome back, ${user.name}!`, 'success');
+        }
+
+        function logout() {
+            currentUser = null;
+            selectedRole = null;
+            apiKey = null;
+            questionCount = 0;
+            
+            document.getElementById('roleSection').classList.remove('show');
+            document.getElementById('chatSection').classList.remove('show');
+            document.getElementById('authSection').classList.remove('hidden');
+            
+            // Reset forms
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('apiKey').value = '';
+            
+            // Clear selected role
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+        }
+
+        // Role selection
+        function selectRole(role) {
+            selectedRole = role;
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.target.closest('.role-card').classList.add('selected');
+        }
+
+        function startInterview() {
+            if (!selectedRole) {
+                alert('Please select a role first');
+                return;
+            }
+
+            // Use provided API key or default one
+            const providedKey = document.getElementById('apiKey').value;
+            apiKey = providedKey || DEFAULT_API_KEY;
+
+            document.getElementById('roleSection').classList.remove('show');
+            document.getElementById('chatSection').classList.add('show');
+            document.getElementById('chatTitle').textContent = `${roleConfigs[selectedRole].title} Interview`;
+            
+            // Initialize chat
+            questionCount = 0;
+            currentQuestionIndex = 0;
+            askedQuestions = [];
+            
+            // Clear previous messages except welcome
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="message bot">
+                    Welcome to your ${roleConfigs[selectedRole].title} interview preparation! I'll ask you ${maxQuestions} questions to help you practice. Let's begin!
+                </div>
+            `;
+            
+            setTimeout(() => {
+                generateQuestion();
+            }, 1000);
+        }
+
+        // Chat functions
+        function addMessage(content, isBot = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isBot ? 'bot' : 'user'}`;
+            messageDiv.textContent = content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addMessage(message, false);
+            input.value = '';
+            
+            // Process the answer
+            setTimeout(() => {
+                if (message.toLowerCase() === 'start') {
+                    generateQuestion();
+                } else {
+                    evaluateAnswer(message);
+                }
+            }, 1000);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        async function generateQuestion() {
+            if (questionCount >= maxQuestions) {
+                addMessage(`🎉 Congratulations! You've completed all ${maxQuestions} questions in the ${roleConfigs[selectedRole].title} interview practice. Great job! Your performance helps build confidence for real interviews.`, true);
+                
+                setTimeout(() => {
+                    addMessage("Would you like to start a new session or try a different role? Click 'End Session' to return to role selection.", true);
+                }, 2000);
+                return;
+            }
+
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'message bot';
+            loadingMsg.innerHTML = '<span class="loading"></span> Preparing your next question...';
+            document.getElementById('chatMessages').appendChild(loadingMsg);
+
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                loadingMsg.remove();
+                
+                const roleConfig = roleConfigs[selectedRole];
+                const availableQuestions = roleConfig.questions.filter((_, index) => !askedQuestions.includes(index));
+                
+                if (availableQuestions.length === 0) {
+                    // Reset if all questions used
+                    askedQuestions = [];
+                }
+                
+                const randomIndex = Math.floor(Math.random() * (availableQuestions.length || roleConfig.questions.length));
+                const questionIndex = askedQuestions.length === 0 ? randomIndex : 
+                    roleConfig.questions.findIndex(q => q === availableQuestions[randomIndex]);
+                
+                askedQuestions.push(questionIndex);
+                currentQuestionIndex = questionIndex;
+                
+                const questionData = roleConfig.questions[questionIndex];
+                addMessage(`❓ Question ${questionCount + 1}/${maxQuestions}: ${questionData.question}`, true);
+                questionCount++;
+                
+            } catch (error) {
+                loadingMsg.remove();
+                addMessage("Sorry, I couldn't generate a question right now. Please try again.", true);
+            }
+        }
+
+        async function evaluateAnswer(answer) {
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'message bot';
+            loadingMsg.innerHTML = '<span class="loading"></span> Analyzing your answer...';
+            document.getElementById('chatMessages').appendChild(loadingMsg);
+
+            try {
+                await new Promise(resolve => setTimeout(resolve, 2500));
+                
+                loadingMsg.remove();
+                
+                // Get current question data
+                const roleConfig = roleConfigs[selectedRole];
+                const questionData = roleConfig.questions[currentQuestionIndex];
+                
+                // Analyze answer quality
+                const analysis = analyzeAnswer(answer, questionData);
+                
+                // Provide detailed feedback
+                let feedback = `📊 **Answer Analysis:**\n\n`;
+                feedback += `**Accuracy:** ${analysis.score}/10\n`;
+                feedback += `**Feedback:** ${analysis.feedback}\n\n`;
+                
+                if (analysis.score >= 7) {
+                    feedback += `✅ **Great job!** Your answer demonstrates solid understanding.`;
+                } else if (analysis.score >= 5) {
+                    feedback += `👍 **Good attempt!** You're on the right track.`;
+                } else {
+                    feedback += `💡 **Keep learning!** Consider reviewing this topic further.`;
+                }
+                
+                if (analysis.suggestions.length > 0) {
+                    feedback += `\n\n**💡 Suggestions for improvement:**\n${analysis.suggestions.join('\n')}`;
+                }
+                
+                addMessage(feedback, true);
+                
+                // Generate next question after feedback
+                setTimeout(() => {
+                    if (questionCount < maxQuestions) {
+                        setTimeout(generateQuestion, 1500);
+                    }
+                }, 3000);
+                
+            } catch (error) {
+                loadingMsg.remove();
+                addMessage("Sorry, I couldn't evaluate your answer right now. Let's continue with the next question.", true);
+                setTimeout(generateQuestion, 2000);
+            }
+        }
+
+        function analyzeAnswer(userAnswer, questionData) {
+            const answer = userAnswer.toLowerCase();
+            const keywords = questionData.keywords;
+            const correctAnswer = questionData.correctAnswer.toLowerCase();
+            
+            let score = 0;
+            let matchedKeywords = [];
+            let suggestions = [];
+            
+            // Check for keyword matches
+            keywords.forEach(keyword => {
+                if (answer.includes(keyword.toLowerCase())) {
+                    matchedKeywords.push(keyword);
+                    score += 1;
+                }
+            });
+            
+            // Normalize score to 10
+            score = Math.min(10, Math.round((score / keywords.length) * 10));
+            
+            // Generate feedback based on score and matched keywords
+            let feedback = "";
+            
+            if (score >= 8) {
+                feedback = "Excellent answer! You covered most key concepts and demonstrated strong understanding.";
+            } else if (score >= 6) {
+                feedback = "Good answer! You covered several important points but could expand on some areas.";
+            } else if (score >= 4) {
+                feedback = "Decent attempt! You touched on some key concepts but missed several important points.";
+            } else {
+                feedback = "Your answer needs improvement. You missed many key concepts for this topic.";
+            }
+            
+            // Generate suggestions based on missing keywords
+            const missedKeywords = keywords.filter(k => !matchedKeywords.includes(k));
+            if (missedKeywords.length > 0) {
+                suggestions.push(`• Consider mentioning: ${missedKeywords.slice(0, 3).join(', ')}`);
+            }
+            
+            if (answer.length < 50) {
+                suggestions.push("• Try to provide more detailed explanations");
+            }
+            
+            if (!answer.includes('example') && !answer.includes('like') && !answer.includes('such as')) {
+                suggestions.push("• Adding practical examples would strengthen your answer");
+            }
+            
+            return {
+                score: Math.max(1, score), // Ensure minimum score of 1
+                feedback,
+                suggestions,
+                matchedKeywords,
+                missedKeywords
+            };
+        }
+
+        function endInterview() {
+            if (confirm('Are you sure you want to end the interview session?')) {
+                // Show completion message
+                addMessage(`🔚 Interview session ended. You completed ${questionCount} out of ${maxQuestions} questions. Thank you for practicing with InterviewAce!`, true);
+                
+                // Reset interview state
+                questionCount = 0;
+                currentQuestionIndex = 0;
+                askedQuestions = [];
+                selectedRole = null;
+                
+                // Clear role selection
+                document.querySelectorAll('.role-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                // Navigate back to role selection after a delay
+                setTimeout(() => {
+                    document.getElementById('chatSection').classList.remove('show');
+                    document.getElementById('roleSection').classList.add('show');
+                    
+                    // Reset chat messages
+                    document.getElementById('chatMessages').innerHTML = `
+                        <div class="message bot">
+                            Welcome! I'm your AI interview coach. Select a role and let's start practicing for your next interview!
+                        </div>
+                    `;
+                    
+                    // Clear user input
+                    document.getElementById('userInput').value = '';
+                    
+                }, 2000);
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status-indicator status-${type}`;
+            statusDiv.textContent = message;
+            
+            document.querySelector('.container').insertBefore(statusDiv, document.querySelector('.auth-container'));
+            
+            setTimeout(() => {
+                statusDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in (you can enhance this with proper session management)
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                document.getElementById('authSection').classList.add('hidden');
+                document.getElementById('roleSection').classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>
