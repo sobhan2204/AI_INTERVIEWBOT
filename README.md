@@ -1,50 +1,76 @@
 # 🤖 AI_INTERVIEWBOT – AI-Powered Interview Preparation Bot
 
-InterviewAce is a browser-based interview preparation assistant designed to help job seekers practice and improve their interview skills across various tech roles.
+**InterviewAce** is a browser-based interview preparation assistant designed to help job seekers practice and improve their interview skills across various tech roles.
+
+---
 
 ## 🚀 Features
 
-- 🎯 *Role-Based Interview Paths*  
-  Choose your focus: Full Stack Developer, AI/ML Engineer, QA/Testing, Software Developer, or DevOps.
-
-- 🔐 *Authentication*  
-  Simulated login and registration with user data stored in browser localStorage.
-
-- 🤖 *AI-Driven Q&A Chat*  
-  - Dynamically generated interview questions.
-
-- 🎨 *Modern & Responsive UI*  
-  - Styled using pure CSS with animations.
-  - Mobile-friendly and visually appealing.
-
-    
-## 📍 Current Progress
-
-- Designed and implemented UI (HTML/CSS/JS in one file).
-- Role-based question generation system in JavaScript.
-- Client-side logic for answer evaluation and feedback.
-- The answer is evaluated using OpenAI integration. We are currently facing an issue with the evaluation and are working on it.
-- the answer input is in text format. We are also planning to implement voice input.
-
-## 🛠 Tech Stack
-
-- *Frontend*: HTML, CSS, Vanilla JavaScript
-- *AI (Upcoming)*: OpenAI GPT API
-- *Storage*: Browser LocalStorage (for user mock DB)
-
-## 🧠 Roles Covered
-
+### 🎯 Role-Based Interview Paths  
+Choose from 5 focused career tracks:
 - 🌐 Full Stack Developer  
 - 🧠 AI/ML Engineer  
 - 🧪 QA/Testing Engineer  
 - 💻 Software Developer  
-- 🚀 DevOps Engineer
+- 🚀 DevOps Engineer  
+
+### 🔐 Authentication  
+- Simulated login and registration system  
+- User data stored in browser `localStorage`  
+- **Password reset via security question (no email/backend needed)**  
+- Input validation with visual feedback
+
+### 🌗 Theme Toggle (Light/Dark Mode)  
+- Seamless toggle using CSS variables  
+- Persistent and accessible UI for all screen sizes
+
+### 🤖 AI-Driven Q&A Chat  
+- Dynamic question generation based on selected role  
+- Built-in answer evaluation logic  
+- Planned: **Voice input support** using Web Speech API  
+- Planned: Real-time scoring using OpenAI GPT API  
+
+### 🎨 Modern & Responsive UI  
+- Built with HTML, CSS, and Vanilla JS  
+- Mobile-first design with animations and clean transitions  
+- Login/Register card flip animation  
+- Dark mode with blur effects and gradient backgrounds  
+
+---
+
+## 📍 Current Progress
+
+- ✅ Fully functional login/register system with password reset  
+- ✅ Role selection and dynamic question loading  
+- ✅ Local answer evaluation logic (OpenAI-based scoring in progress)  
+- ✅ Responsive layout and dark mode toggle  
+- ✅ Voice input  
+- 🧠 Clean code structure for easy backend integration  
+
+---
+
+## 🛠 Tech Stack
+
+| Layer      | Technology             |
+|------------|------------------------|
+| Frontend   | HTML, CSS, JavaScript  |
+| Auth Logic | LocalStorage (mock DB) |
+| AI Engine  | OpenAI GPT API *(upcoming)* |
+| Backend    | Planned: Node.js / Flask / Django |
+| Deployment | Planned: Netlify / Vercel / Render |
+
+---
 
 ## 📌 Next Steps
 
-- Real-time answer evaluation based on keyword matching.
-- Detailed feedback and improvement suggestions.
-- Integrate with OpenAI API for real-time response.
-- Add backend (Flask/Django/Node.js) for persistent auth & data storage.
-- Enable saving progress and scores.
-- Host as a web app on Render/Netlify/Vercel.
+- 🔍 Real-time answer evaluation using keyword logic  
+- 💬 Detailed AI-powered feedback  
+- 🎤 Enable **voice input** (Web Speech API)  
+- 🧾 Save session history and scores  
+- 🔗 Integrate with OpenAI API  
+- 💾 Add backend for persistent data storage  
+- 🚀 Deploy to a cloud hosting platform
+
+---
+
+
