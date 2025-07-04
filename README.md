@@ -27,7 +27,7 @@ Choose from 5 focused career tracks:
 ### 🤖 AI-Driven Q&A Chat  
 - Dynamic question generation based on selected role  
 - Built-in answer evaluation logic  
-- Planned: **Voice input support** using Web Speech API  
+- Voice input support using Web Speech API  
 - Planned: Real-time scoring using OpenAI GPT API  
 
 ### 🎨 Modern & Responsive UI  
