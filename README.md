@@ -47,7 +47,7 @@ It includes:
 
 🤖 Optional: OpenAI Integration
 
-To use GPT-based answers:
+To use Gemini-based answers:
 
 1. Go to [https://platform.openai.com](https://platform.openai.com)
 2. Create an account and get your API key
