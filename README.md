@@ -1,76 +1,76 @@
-# 🤖 AI_INTERVIEWBOT – AI-Powered Interview Preparation Bot
+InterviewAce – AI Interview Coach 🧠💬
 
-**InterviewAce** is a browser-based interview preparation assistant designed to help job seekers practice and improve their interview skills across various tech roles.
+**InterviewAce** is a web-based application that helps users prepare for interviews across multiple roles like Frontend, Backend, Full Stack, Data Analyst, DevOps, and Product Management.
+
+It includes:
+- Role-based static question sets 🎯
+- Voice input using Web Speech API 🎙️
+- Text-to-speech answers 🔊
+- OpenAI GPT integration (optional) 🤖
+- Light/Dark mode toggle 🌙☀️
+- Login/Register system (LocalStorage based) 🔐
 
 ---
 
 ## 🚀 Features
 
-### 🎯 Role-Based Interview Paths  
-Choose from 5 focused career tracks:
-- 🌐 Full Stack Developer  
-- 🧠 AI/ML Engineer  
-- 🧪 QA/Testing Engineer  
-- 💻 Software Developer  
-- 🚀 DevOps Engineer  
-
-### 🔐 Authentication  
-- Simulated login and registration system  
-- User data stored in browser `localStorage`  
-- **Password reset via security question (no email/backend needed)**  
-- Input validation with visual feedback
-
-### 🌗 Theme Toggle (Light/Dark Mode)  
-- Seamless toggle using CSS variables  
-- Persistent and accessible UI for all screen sizes
-
-### 🤖 AI-Driven Q&A Chat  
-- Dynamic question generation based on selected role  
-- Built-in answer evaluation logic  
-- Voice input support using Web Speech API  
-- Planned: Real-time scoring using OpenAI GPT API  
-
-### 🎨 Modern & Responsive UI  
-- Built with HTML, CSS, and Vanilla JS  
-- Mobile-first design with animations and clean transitions  
-- Login/Register card flip animation  
-- Dark mode with blur effects and gradient backgrounds  
+- 🔐 **User Authentication** (Login/Register)
+- 🧩 **Role-Based Questions** – Tailored interview questions for different domains
+- 🎙️ **Voice Input & Output** – Speak and listen to answers
+- 💬 **Chat Interface** – Simulates AI chat interaction
+- 🧠 **OpenAI API Support** – Optional GPT integration for dynamic answers
+- 🎨 **Responsive Design** – Works on mobile and desktop
+- 🌗 **Theme Toggle** – Switch between light and dark modes
 
 ---
 
-## 📍 Current Progress
+## 🛠️ Technologies Used
 
-- ✅ Fully functional login/register system with password reset  
-- ✅ Role selection and dynamic question loading  
-- ✅ Local answer evaluation logic (OpenAI-based scoring in progress)  
-- ✅ Responsive layout and dark mode toggle  
-- ✅ Voice input  
-- 🧠 Clean code structure for easy backend integration  
+- **HTML5, CSS3, JavaScript**
+- **Web Speech API** – for voice recognition and synthesis
+- **LocalStorage** – for user data
+- **OpenAI GPT (optional)** – for dynamic AI answers
 
 ---
 
-## 🛠 Tech Stack
+## 📦 Project Structure
 
-| Layer      | Technology             |
-|------------|------------------------|
-| Frontend   | HTML, CSS, JavaScript  |
-| Auth Logic | LocalStorage (mock DB) |
-| AI Engine  | OpenAI GPT API *(upcoming)* |
-| Backend    | Planned: Node.js / Flask / Django |
-| Deployment | Planned: Netlify / Vercel / Render |
+```
 
----
+├── index.html        # Main HTML file
+├── styles.css        # Styling (theme, layout, chat UI)
+├── script.js           # Core logic, AI integration, voice functions
 
-## 📌 Next Steps
-
-- 🔍 Real-time answer evaluation using keyword logic  
-- 💬 Detailed AI-powered feedback  
-- 🎤 Enable **voice input** (Web Speech API)  
-- 🧾 Save session history and scores  
-- 🔗 Integrate with OpenAI API  
-- 💾 Add backend for persistent data storage  
-- 🚀 Deploy to a cloud hosting platform
+````
 
 ---
 
+🤖 Optional: OpenAI Integration
+
+To use GPT-based answers:
+
+1. Go to [https://platform.openai.com](https://platform.openai.com)
+2. Create an account and get your API key
+3. Enter the API key on the role selection screen in the input box
+4. Then start chatting with dynamic AI responses
+
+If you don't enter a key, static mock questions will be used instead.
+
+---
+
+## 🧪 How to Run
+
+Just open the `index.html` file in your browser:
+
+```bash
+# No installation required
+# Simply double-click or use Live Server in VS Code
+````
+
+---
+
+## 📄 License
+
+This project is licensed for educational use.
+Feel free to fork and build on top of it!
 
