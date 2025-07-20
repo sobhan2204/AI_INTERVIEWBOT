@@ -65,7 +65,7 @@ Just open the `index.html` file in your browser:
 ```bash
 # No installation required
 # Simply double-click or use Live Server in VS Code
-````
+```
 
 ---
 
