@@ -669,5 +669,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiKeyInputGroup = document.querySelector('.start-interview-section .form-group');
     if (apiKeyInputGroup) {
         apiKeyInputGroup.style.display = 'none';
-   }
+    }
 });
